@@ -1,9 +1,8 @@
 <?php
 
 require './parts/connect_db.php';
-$title = '分類資料';
-
 $pageName = 'expressCate';
+$title = '快速通關';
 
 $sql = "SELECT * FROM expresspasstoamuse";
 

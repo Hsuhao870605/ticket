@@ -2,7 +2,7 @@
 require './parts/connect_db.php';
 
 $pageName = 'add';
-$title = '新增';
+$title = '一日暢遊票券';
 
 ?>
 <?php include './parts/html_head.php' ?>
@@ -18,7 +18,7 @@ $title = '新增';
       <div class="card">
 
         <div class="card-body">
-          <h5 class="card-title">新增資料</h5>
+          <h5 class="card-title">一日暢遊票券購買</h5>
 
           <form name="form1" onsubmit="sendData(event)">
             <div class="mb-3">
@@ -45,7 +45,7 @@ $title = '新增';
                 <option value="5">敬老票</option>
                 <option value="6">愛心票</option>
               </select>
-              <br>
+              <br><br>
               <select class="form-catch" name="catch" id="catch">
                 <option selected>取票方式</option>
                 <option value="1">現場取票</option>
@@ -53,7 +53,7 @@ $title = '新增';
                 <option value="3">郵寄</option>
                 <option value="4">電子票券取票</option>
               </select>
-              <br>
+              <br><br>
             <button type="submit" class="btn btn-primary">送出</button>
           </form>
 
