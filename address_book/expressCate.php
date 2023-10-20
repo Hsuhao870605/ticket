@@ -32,7 +32,7 @@ $rows = $pdo->query($sql)->fetchAll();
               </select>
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text">設施名稱</span>
+              <span class="input-group-text">設施選擇</span>
               <select class="form-select" name="cate2" id="cate2"></select>
             </div>
             <button type="submit" class="btn btn-primary">送出</button>
