@@ -69,7 +69,7 @@ if ($totalRows > 0) {
   <div class="row">
     <div class="col">
 
-      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">新增票券</a></button>
+      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">新增票券種類</a></button>
 
       <table class="table table-bordered table-striped">
         <thead>

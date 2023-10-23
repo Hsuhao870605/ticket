@@ -28,7 +28,7 @@ if ($totalRows > 0) {
     exit; #直接結束這支php
   }
   $sql = sprintf(
-    "SELECT * FROM orderlist ORDER BY order_id DESC LIMIT %s, %s",
+    "SELECT * FROM orderlist JOIN orderstate on orderlist.orderState_id = orderState.orderState_id ORDER BY order_id DESC LIMIT %s, %s",
     ($page - 1) * $perPage,
     $perPage
   );
@@ -69,6 +69,7 @@ if ($totalRows > 0) {
   <div><?= "$totalRows / $totalPages" ?></div>
   <div class="row">
     <div class="col">
+      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'orderAdd' ? 'active' : '' ?>" href="orderAdd.php">新增訂單票券</a></button>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
@@ -78,6 +79,9 @@ if ($totalRows > 0) {
             <th scope="col">金額</th>
             <th scope="col">票券日期</th>
             <th scope="col">付款狀態</th>
+            <th scope="col">
+              編輯訂單<i class="fa-solid fa-file-pen">
+            </th>
             <th scope="col">
               刪除訂單<i class="fa-solid fa-trash-can"></i>
             </th>
@@ -91,7 +95,10 @@ if ($totalRows > 0) {
               <td><?= $r['t_name'] ?></td>
               <td><?= $r['amount'] ?></td>
               <td><?= $r['orderTime'] ?></td>
-              <td><?= $r['orderState'] ?></td>
+              <td><?= $r['stateName'] ?></td>
+              <td><a href="orderEdit.php?order_id=<?= $r['order_id'] ?>">
+                  <i class="fa-solid fa-file-pen">
+                </a></td>
               <td><a href="javascript: deleteItem(<?= $r['order_id'] ?>)">
                   <i class="fa-solid fa-trash-can"></i>
                 </a></td>
@@ -108,9 +115,9 @@ if ($totalRows > 0) {
 
 <?php include './parts/scripts.php' ?>
 <script>
-  function deleteItem(sid) {
-    if (confirm(`確定刪除編號 ${sid} 資料嗎?`)) {
-      location.href = 'delete.php?sid=' + sid;
+  function deleteItem(order_id) {
+    if (confirm(`確定刪除編號 ${order_id} 資料嗎?`)) {
+      location.href = 'orderDelete.php?order_id=' + order_id;
     }
   }
 </script>

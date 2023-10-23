@@ -67,7 +67,7 @@ $title = '編輯資料';
               <div class="form-text"></div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">送出</button>
           </form>
 
         </div>
@@ -161,6 +161,7 @@ $title = '編輯資料';
               input.nextElementSibling.innerHTML = data.errors[n];
             }
           }
+          location.href = "./list.php"
         }
 
       })

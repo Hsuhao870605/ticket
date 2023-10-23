@@ -1,12 +1,30 @@
 <?php
 require './parts/connect_db.php';
 
-$pageName = 'orderAdd';
-$title = '訂單票券';
+// 取得資料的primary key
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
 
-$sql = "SELECT * FROM orderstate";
-$rows = $pdo->query($sql)->fetchAll();
+if (empty($order_id)) {
+  header('Location: orderList.php');
+  exit; //結束程式
+}
 
+$sql = "SELECT * FROM orderlist WHERE order_id={$order_id}";
+$sql1 = "SELECT * FROM orderstate";
+
+$rows = $pdo->query($sql)->fetch();
+$rows1 = $pdo->query($sql1)->fetchAll();
+if (empty($rows)) {
+  header('Location: orderList.php');
+  exit;
+}
+if (empty($rows1)) {
+  header('Location: orderList.php');
+  exit;
+}
+# echo json_encode($rows, JSON_UNESCAPED_UNICODE);
+
+$title = '訂單資料編輯';
 
 ?>
 <?php include './parts/html_head.php' ?>
@@ -22,51 +40,42 @@ $rows = $pdo->query($sql)->fetchAll();
       <div class="card">
 
         <div class="card-body">
-          <h5 class="card-title">訂單票券新增</h5>
+          <h5 class="card-title">訂單資料編輯</h5>
 
           <form name="form1" onsubmit="sendData(event)">
             <div class="mb-3">
+              <input type="hidden" name="order_id" value="<?= $rows['order_id'] ?>">
               <label for="user_name" class="form-label">姓名</label>
-              <input type="text" class="form-control" id="user_name" name="user_name">
+              <input type="text" class="form-control" id="user_name" name="user_name" value="<?= htmlentities($rows['user_name']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
               <label for="t_name" class="form-label">票券名稱</label>
-              <input type="text" class="form-control" id="t_name" name="t_name">
+              <input type="text" class="form-control" id="t_name" name="t_name" value="<?= htmlentities($rows['t_name']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
               <label for="amount" class="form-label">金額</label>
-              <input type="text" class="form-control" id="amount" name="amount">
+              <input type="text" class="form-control" id="amount" name="amount" value="<?= htmlentities($rows['amount']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
               <label for="orderTime" class="form-label">票券日期</label>
-              <input type="date" class="form-control " id="orderTime" name="orderTime">
+              <input type="date" class="form-control " id="orderTime" name="orderTime" value="<?= htmlentities($rows['orderTime']) ?>">
               <div class="form-text"></div>
             </div>
+            <!-- datetimepicker -->
             <div class="mb-3">
               <label for="orderState_id" class="form-label">付款狀態</label>
               <select class="form-select ms-3" id="orderState_id" name="orderState_id" required="required">
-                <?php foreach ($rows as $r) : ?>
-                  <option value="<?= $r['orderState_id'] ?>" <?= $r['orderState_id'] == 1 ? 'selected' : "disabled" ?>><?= $r['stateName'] ?></option>
+                <?php foreach ($rows1 as $r) : ?>
+                  <option value="<?= $r['orderState_id'] ?>" <?= $r['orderState_id'] == 1 ? 'selected' : "" ?>><?= $r['stateName'] ?></option>
                 <?php
                 endforeach ?>
               </select>
               <div class="form-text"></div>
             </div>
-            <!-- datetimepicker -->
-            <!--<div class="mb-3">
-              <label for="email" class="form-label">email</label>
-              <input type="text" class="form-control" id="email" name="email">
-              <div class="form-text"></div>
-            </div> 
-            <div class="mb-3">
-              <label for="mobile" class="form-label">mobile</label>
-              <input type="text" class="form-control" id="mobile" name="mobile">
-              <div class="form-text"></div>
-            </div> 
-            <br><br> -->
+
             <button type="submit" class="btn btn-primary">送出</button>
           </form>
 
@@ -84,15 +93,14 @@ $rows = $pdo->query($sql)->fetchAll();
   const t_name_in = document.form1.t_name;
   const amount_in = document.form1.amount;
   const orderTime_in = document.form1.orderTime;
-  const orderState_id_in = document.form1.orderState_id;
-  // const email_in = document.form1.email;
-  // const mobile_in = document.form1.mobile;
-  const fields = [user_name_in, t_name_in, amount_in, orderTime_in, orderState_id_in];
+  const endTime_in = document.form1.endTime;
+  const stateName_in = document.form1.stateName;
+  const fields = [user_name_in, t_name_in, amount_in, orderTime_in, endTime_in, stateName_in];
 
-  /* function validateEmail(email) {
+  /*function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-  } 
+  }
 
   function validateMobile(mobile) {
     const re = /^09\d{2}-?\d{3}-?\d{3}$/;
@@ -111,27 +119,27 @@ $rows = $pdo->query($sql)->fetchAll();
 
     // TODO: 資料在送出之前, 要檢查格式
     let isPass = true; // 有沒有通過檢查
-    if (user_name.value.length < 2) {
+    if (user_name_in.value.length < 2) {
       isPass = false;
-      user_name.style.border = '2px solid red';
-      user_name.nextElementSibling.innerHTML = '請填寫正確的姓名';
+      user_name_in.style.border = '2px solid red';
+      user_name_in.nextElementSibling.innerHTML = '請填寫正確的名稱';
     }
-    if (t_name.value.length < 2) {
+    if (t_name_in.value.length < 2) {
       isPass = false;
-      t_name_in.style.border = '2px solid red';
-      t_name_in.nextElementSibling.innerHTML = '請填寫正確的票券名稱';
+      t_name.style.border = '2px solid red';
+      t_name.nextElementSibling.innerHTML = '請填寫正確的類型';
     }
 
-    /*if (!validateEmail(email_in.value)) {
+    /* if (!validateEmail(email_in.value)) {
       isPass = false;
-      email_in.style.border = '2px solid red';
-      email_in.nextElementSibling.innerHTML = '請填寫正確的 Email';
-    } 
+      t_name_in.style.border = '2px solid red';
+      t_name_in.nextElementSibling.innerHTML = '請填寫正確的 類型';
+    }
     // 非必填
     if (mobile_in.value && !validateMobile(mobile_in.value)) {
       isPass = false;
-      mobile_in.style.border = '2px solid red';
-      mobile_in.nextElementSibling.innerHTML = '請填寫正確的手機號碼';
+      amount_in.style.border = '2px solid red';
+      amount_in.nextElementSibling.innerHTML = '請填寫正確的金額';
     } */
 
 
@@ -141,7 +149,7 @@ $rows = $pdo->query($sql)->fetchAll();
     // 建立只有資料的表單
     const fd = new FormData(document.form1);
 
-    fetch('orderAdd-api.php', {
+    fetch('orderEdit-api.php', {
         method: 'POST',
         body: fd, // 送出的格式會自動是 multipart/form-data
       }).then(r => r.json())
@@ -150,16 +158,16 @@ $rows = $pdo->query($sql)->fetchAll();
           data
         });
         if (data.success) {
-          alert('資料新增成功');
+          alert('資料編輯成功');
           location.href = "./orderList.php"
         } else {
-          // alert('資料有誤');
+          alert('資料沒有修改');
           for (let n in data.errors) {
             console.log(`n: ${n}`);
             if (document.form1[n]) {
               const input = document.form1[n];
               input.style.border = '2px solid red';
-              input.nextElementSibling.innerHTML = '請填寫正確的手機號碼';
+              input.nextElementSibling.innerHTML = data.errors[n];
             }
           }
         }

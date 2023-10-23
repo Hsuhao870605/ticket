@@ -27,7 +27,10 @@ if (!isset($pageName)) {
             <a class="nav-link <?= $pageName == 'orderList' ? 'active' : '' ?>" href="orderList.php">訂單管理</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">一日暢遊票券</a>
+            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">商品種類新增</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'orderAdd' ? 'active' : '' ?>" href="orderAdd.php">訂單新增</a>
           </li>
           <li class="nav-item">
             <a class="nav-link <?= $pageName == 'expressCate' ? 'active' : '' ?>" href="expressCate.php">快速通關</a>

@@ -18,7 +18,7 @@ $title = '一日暢遊票券';
       <div class="card">
 
         <div class="card-body">
-          <h5 class="card-title">一日暢遊票券購買</h5>
+          <h5 class="card-title">商品種類新增</h5>
 
           <form name="form1" onsubmit="sendData(event)">
             <div class="mb-3">
