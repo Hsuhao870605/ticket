@@ -50,27 +50,27 @@ $description = $_POST['description'] ?? '';
 // mb_strlen(): 查看中文字串的長度
 
 $isPass = true;
-if (empty($name)) {
+if (empty($t_name)) {
   $isPass = false;
-  $output['errors']['t_name'] = '請填寫正確的姓名';
+  $output['errors']['t_name'] = '請填寫正確的名稱';
 }
 
 /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $isPass = false;
   $output['errors']['email'] = 'email 格式錯誤';
-}
+}*/
 
 # 如果沒有通過檢查
 if (!$isPass) {
   echo json_encode($output);
   exit;
 } 
-*/
 
-$sql = "INSERT INTO `address_book`(
+
+$sql = "INSERT INTO `productlist`(
   `t_name`, `t_category`, `amount`, `beginTime`, `endTime`, `description`
   ) VALUES (
-    ?, ?, ?, ?, ?, NOW()
+    ?, ?, ?, ?, ?, ?
   )";
 
 $stmt = $pdo->prepare($sql);

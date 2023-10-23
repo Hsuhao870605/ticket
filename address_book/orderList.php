@@ -12,7 +12,7 @@ if ($page < 1) {
   exit; #直接結束這支php
 }
 
-$t_sql = "SELECT COUNT(*) FROM user_table";
+$t_sql = "SELECT COUNT(*) FROM orderlist";
 #y總筆數
 $totalRows = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM)[0];
 
@@ -28,7 +28,7 @@ if ($totalRows > 0) {
     exit; #直接結束這支php
   }
   $sql = sprintf(
-    "SELECT * FROM user_table ORDER BY sid DESC LIMIT %s, %s",
+    "SELECT * FROM orderlist ORDER BY order_id DESC LIMIT %s, %s",
     ($page - 1) * $perPage,
     $perPage
   );
@@ -74,12 +74,12 @@ if ($totalRows > 0) {
           <tr>
             <th scope="col">訂單號碼</th>
             <th scope="col">使用者名稱</th>
-            <th scope="col">票券類型</th>
+            <th scope="col">票券名稱</th>
             <th scope="col">金額</th>
-            <th scope="col">訂票時間</th>
-            <th scope="col">描述</th>
+            <th scope="col">票券日期</th>
+            <th scope="col">付款狀態</th>
             <th scope="col">
-              <i class="fa-solid fa-trash-can"></i>
+              刪除訂單<i class="fa-solid fa-trash-can"></i>
             </th>
           </tr>
         </thead>
@@ -87,13 +87,12 @@ if ($totalRows > 0) {
           <?php foreach ($rows as $r) : ?>
             <tr>
               <td><?= $r['order_id'] ?></td>
-              <td><?= $r['u_name'] ?></td>
-              <td><?= $r['t_category'] ?></td>
+              <td><?= $r['user_name'] ?></td>
+              <td><?= $r['t_name'] ?></td>
               <td><?= $r['amount'] ?></td>
-              <td><?= $r['beginTime'] ?></td>
-              <td><?= htmlentities($r['description']) ?>
-              <!--<?= strip_tags($r['description']) ?></td> -->
-              <td><a href="javascript: deleteItem(<?= $r['sid'] ?>)">
+              <td><?= $r['orderTime'] ?></td>
+              <td><?= $r['orderState'] ?></td>
+              <td><a href="javascript: deleteItem(<?= $r['order_id'] ?>)">
                   <i class="fa-solid fa-trash-can"></i>
                 </a></td>
             </tr>

@@ -38,12 +38,12 @@ $title = '一日暢遊票券';
             </div>
             <div class="mb-3">
               <label for="beginTime" class="form-label">開始時間</label>
-              <input type="datetime-local" class="form-control " id="beginTime" name="beginTime">
+              <input type="date" class="form-control " id="beginTime" name="beginTime">
               <div class="form-text"></div>
             </div>
             <!-- datetimepicker -->
             <label for="endTime" class="form-label">結束時間</label>
-            <input type="datetime-local" class="form-control" id="endTime" name="endTime">
+            <input type="date" class="form-control" id="endTime" name="endTime">
             <div class="form-text"></div>
             <div class="mb-3">
               <label for="description" class="form-label">描述</label>
@@ -60,23 +60,6 @@ $title = '一日暢遊票券';
               <input type="text" class="form-control" id="mobile" name="mobile">
               <div class="form-text"></div>
             </div> 
-            <select class="form-tickets" name="tickets" id="tickets">
-              <option selected>選擇票券</option>
-              <option value="1">成人票</option>
-              <option value="2">早鳥票</option>
-              <option value="3">學生票</option>
-              <option value="4">兒童票</option>
-              <option value="5">敬老票</option>
-              <option value="6">愛心票</option>
-            </select>
-            <br><br>
-            <select class="form-catch" name="catch" id="catch">
-              <option selected>取票方式</option>
-              <option value="1">現場取票</option>
-              <option value="2">超商取票</option>
-              <option value="3">郵寄</option>
-              <option value="4">電子票券取票</option>
-            </select>
             <br><br> -->
             <button type="submit" class="btn btn-primary">送出</button>
           </form>
@@ -126,7 +109,7 @@ $title = '一日暢遊票券';
     if (t_name.value.length < 2) {
       isPass = false;
       t_name.style.border = '2px solid red';
-      t_name.nextElementSibling.innerHTML = '請填寫正確的姓名';
+      t_name.nextElementSibling.innerHTML = '請填寫正確的名稱';
     }
     if (t_name.value.length < 2) {
       isPass = false;
@@ -138,23 +121,13 @@ $title = '一日暢遊票券';
       isPass = false;
       email_in.style.border = '2px solid red';
       email_in.nextElementSibling.innerHTML = '請填寫正確的 Email';
-    } */
-    if (tickets_in.value = "選擇票券") {
-      isPass = false;
-      tickets_in.style.border = '2px solid red';
-      tickets_in.nextElementSibling.innerHTML = "請選擇票券";
-    }
-    if (catch_in.value = "取票方式") {
-      isPass = false;
-      catch_in.style.border = '2px solid red';
-      catch_in.nextElementSibling.innerHTML = "請選擇取票方式";
-    }
+    } 
     // 非必填
     if (mobile_in.value && !validateMobile(mobile_in.value)) {
       isPass = false;
       mobile_in.style.border = '2px solid red';
       mobile_in.nextElementSibling.innerHTML = '請填寫正確的手機號碼';
-    }
+    } */
 
 
     if (!isPass) {

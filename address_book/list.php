@@ -68,6 +68,9 @@ if ($totalRows > 0) {
   <div><?= "$totalRows / $totalPages" ?></div>
   <div class="row">
     <div class="col">
+
+      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">新增票券</a></button>
+
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
@@ -99,7 +102,8 @@ if ($totalRows > 0) {
               <td><?= $r['beginTime'] ?></td>
               <td><?= $r['endTime'] ?></td>
               <td><?= htmlentities($r['description']) ?>
-                <!--<?= strip_tags($r['description']) ?></td> -->
+                <!--<?= strip_tags($r['description']) ?> -->
+              </td>
               <td><a href="edit.php?sid=<?= $r['sid'] ?>">
                   <i class="fa-solid fa-file-pen">
                 </a></td>
@@ -107,7 +111,6 @@ if ($totalRows > 0) {
           <?php endforeach ?>
         </tbody>
       </table>
-      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php"></a>新增</button>
     </div>
   </div>
 </div>
