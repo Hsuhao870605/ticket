@@ -1,7 +1,8 @@
 <?php
 require './parts/connect_db.php';
-$pageName = 'list';
-$title = '商品管理';
+$pageName = 'orderList';
+$title = '訂單管理';
+
 
 $perPage = 10; //一頁最多有幾筆
 
@@ -11,7 +12,7 @@ if ($page < 1) {
   exit; #直接結束這支php
 }
 
-$t_sql = "SELECT COUNT(*) FROM productlist";
+$t_sql = "SELECT COUNT(*) FROM user_table";
 #y總筆數
 $totalRows = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM)[0];
 
@@ -27,7 +28,7 @@ if ($totalRows > 0) {
     exit; #直接結束這支php
   }
   $sql = sprintf(
-    "SELECT * FROM productlist ORDER BY sid DESC LIMIT %s, %s",
+    "SELECT * FROM user_table ORDER BY sid DESC LIMIT %s, %s",
     ($page - 1) * $perPage,
     $perPage
   );
@@ -71,43 +72,34 @@ if ($totalRows > 0) {
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th scope="col">
-              <i class="fa-solid fa-trash-can"></i>
-            </th>
-            <th scope="col">#</th>
-            <th scope="col">票券名稱</th>
+            <th scope="col">訂單號碼</th>
+            <th scope="col">使用者名稱</th>
             <th scope="col">票券類型</th>
-            <th scope="col">售價金額</th>
-            <th scope="col">開始時間</th>
-            <th scope="col">結束時間</th>
+            <th scope="col">金額</th>
+            <th scope="col">訂票時間</th>
             <th scope="col">描述</th>
             <th scope="col">
-              <i class="fa-solid fa-file-pen">
+              <i class="fa-solid fa-trash-can"></i>
             </th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($rows as $r) : ?>
             <tr>
-              <td><a href="javascript: deleteItem(<?= $r['sid'] ?>)">
-                  <i class="fa-solid fa-trash-can"></i>
-                </a></td>
-              <td><?= $r['sid'] ?></td>
-              <td><?= $r['t_name'] ?></td>
+              <td><?= $r['order_id'] ?></td>
+              <td><?= $r['u_name'] ?></td>
               <td><?= $r['t_category'] ?></td>
               <td><?= $r['amount'] ?></td>
               <td><?= $r['beginTime'] ?></td>
-              <td><?= $r['endTime'] ?></td>
               <td><?= htmlentities($r['description']) ?>
-                <!--<?= strip_tags($r['description']) ?></td> -->
-              <td><a href="edit.php?sid=<?= $r['sid'] ?>">
-                  <i class="fa-solid fa-file-pen">
+              <!--<?= strip_tags($r['description']) ?></td> -->
+              <td><a href="javascript: deleteItem(<?= $r['sid'] ?>)">
+                  <i class="fa-solid fa-trash-can"></i>
                 </a></td>
             </tr>
           <?php endforeach ?>
         </tbody>
       </table>
-      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php"></a>新增</button>
     </div>
   </div>
 </div>

@@ -24,11 +24,12 @@ if (empty($sid)) {
   exit; //結束程式
 }
 
-$name = $_POST['name'] ?? '';
-$account = $_POST['account'] ?? '';
-$birthday = $_POST['birthday'] ?? '';
-$email = $_POST['email'] ?? '';
-$mobile = $_POST['mobile'] ?? '';
+$t_name = $_POST['t_name'] ?? '';
+$t_category = $_POST['t_category'] ?? '';
+$amount = $_POST['amount'] ?? '';
+$beginTime = $_POST['beginTime'] ?? '';
+$endTime = $_POST['endTime'] ?? '';
+$description = $_POST['description'] ?? '';
 
 
 
@@ -56,21 +57,23 @@ if (!$isPass) {
 }
 
 $sql = "UPDATE `address_book` SET 
-  `name`=?,
-  `account`=?
-  `birthday`=?,
-  `email`=?,
-  `mobile`=?,
+  `t_name`=?,
+  `t_category`=?
+  `amount`=?,
+  `beginTime`=?,
+  `endTime`=?,
+  `description`=?,
 WHERE `sid`=? ";
 
 $stmt = $pdo->prepare($sql);
 
 $stmt->execute([
-  $name,
-  $account,
-  $birthday,
-  $email,
-  $mobile,
+  $t_name,
+  $t_category,
+  $amount,
+  $beginTime,
+  $endTime,
+  $description,
   $sid,
 ]);
 

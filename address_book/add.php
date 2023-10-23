@@ -22,38 +22,62 @@ $title = '一日暢遊票券';
 
           <form name="form1" onsubmit="sendData(event)">
             <div class="mb-3">
-              <label for="name" class="form-label">姓名</label>
-              <input type="text" class="form-control" id="name" name="name">
+              <label for="t_name" class="form-label">票券名稱</label>
+              <input type="text" class="form-control" id="t_name" name="t_name">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
+              <label for="t_category" class="form-label">票券類型</label>
+              <input type="text" class="form-control" id="t_category" name="t_category">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="form-label">金額</label>
+              <input type="text" class="form-control" id="amount" name="amount">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="beginTime" class="form-label">開始時間</label>
+              <input type="datetime-local" class="form-control " id="beginTime" name="beginTime">
+              <div class="form-text"></div>
+            </div>
+            <!-- datetimepicker -->
+            <label for="endTime" class="form-label">結束時間</label>
+            <input type="datetime-local" class="form-control" id="endTime" name="endTime">
+            <div class="form-text"></div>
+            <div class="mb-3">
+              <label for="description" class="form-label">描述</label>
+              <textarea class="form-control" name="description" id="description" cols="30" rows="3"></textarea>
+              <div class="form-text"></div>
+            </div>
+            <!--<div class="mb-3">
               <label for="email" class="form-label">email</label>
               <input type="text" class="form-control" id="email" name="email">
               <div class="form-text"></div>
-            </div>
+            </div> 
             <div class="mb-3">
               <label for="mobile" class="form-label">mobile</label>
               <input type="text" class="form-control" id="mobile" name="mobile">
               <div class="form-text"></div>
-            </div>
-              <select class="form-tickets" name="tickets" id="tickets">
-                <option selected>選擇票券</option>
-                <option value="1">成人票</option>
-                <option value="2">早鳥票</option>
-                <option value="3">學生票</option>
-                <option value="4">兒童票</option>
-                <option value="5">敬老票</option>
-                <option value="6">愛心票</option>
-              </select>
-              <br><br>
-              <select class="form-catch" name="catch" id="catch">
-                <option selected>取票方式</option>
-                <option value="1">現場取票</option>
-                <option value="2">超商取票</option>
-                <option value="3">郵寄</option>
-                <option value="4">電子票券取票</option>
-              </select>
-              <br><br>
+            </div> 
+            <select class="form-tickets" name="tickets" id="tickets">
+              <option selected>選擇票券</option>
+              <option value="1">成人票</option>
+              <option value="2">早鳥票</option>
+              <option value="3">學生票</option>
+              <option value="4">兒童票</option>
+              <option value="5">敬老票</option>
+              <option value="6">愛心票</option>
+            </select>
+            <br><br>
+            <select class="form-catch" name="catch" id="catch">
+              <option selected>取票方式</option>
+              <option value="1">現場取票</option>
+              <option value="2">超商取票</option>
+              <option value="3">郵寄</option>
+              <option value="4">電子票券取票</option>
+            </select>
+            <br><br> -->
             <button type="submit" class="btn btn-primary">送出</button>
           </form>
 
@@ -67,23 +91,26 @@ $title = '一日暢遊票券';
 
 <?php include './parts/scripts.php' ?>
 <script>
-  const name_in = document.form1.name;
-  const email_in = document.form1.email;
-  const mobile_in = document.form1.mobile;
-  const tickets_in = document.form1.tickets;
-  const catch_in = document.form1.catch;
-  const fields = [name_in, email_in, mobile_in, tickets_in, catch_in];
+  const t_name_in = document.form1.t_name;
+  const t_category_in = document.form1.t_category;
+  const amount_in = document.form1.amount;
+  const beginTime_in = document.form1.beginTime;
+  const endTime_in = document.form1.endTime;
+  const description_in = document.form1.description;
+  // const email_in = document.form1.email;
+  // const mobile_in = document.form1.mobile;
+  const fields = [t_name_in, t_category_in, amount_in, beginTime_in, endTime_in, description_in];
 
-  function validateEmail(email) {
+  /* function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-  }
+  } 
 
   function validateMobile(mobile) {
     const re = /^09\d{2}-?\d{3}-?\d{3}$/;
     return re.test(mobile);
   }
-
+*/
 
   function sendData(e) {
     e.preventDefault(); // 不要讓表單以傳統的方式送出
@@ -96,17 +123,22 @@ $title = '一日暢遊票券';
 
     // TODO: 資料在送出之前, 要檢查格式
     let isPass = true; // 有沒有通過檢查
-    if (name_in.value.length < 2) {
+    if (t_name.value.length < 2) {
       isPass = false;
-      name_in.style.border = '2px solid red';
-      name_in.nextElementSibling.innerHTML = '請填寫正確的姓名';
+      t_name.style.border = '2px solid red';
+      t_name.nextElementSibling.innerHTML = '請填寫正確的姓名';
+    }
+    if (t_name.value.length < 2) {
+      isPass = false;
+      t_category_in.style.border = '2px solid red';
+      t_category_in.nextElementSibling.innerHTML = '請填寫正確的類型';
     }
 
-    if (!validateEmail(email_in.value)) {
+    /*if (!validateEmail(email_in.value)) {
       isPass = false;
       email_in.style.border = '2px solid red';
       email_in.nextElementSibling.innerHTML = '請填寫正確的 Email';
-    }
+    } */
     if (tickets_in.value = "選擇票券") {
       isPass = false;
       tickets_in.style.border = '2px solid red';

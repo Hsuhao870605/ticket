@@ -34,11 +34,12 @@ if(empty($_POST['name']) or empty($_POST['email'])){
   exit;
 }
 */
-$name = $_POST['name'] ?? '';
-$email = $_POST['email'] ?? '';
-$mobile = $_POST['mobile'] ?? '';
-$tickets = $_POST['tickets'] ?? '';
-$catch = $_POST['catch'] ?? '';
+$t_name = $_POST['t_name'] ?? '';
+$t_category = $_POST['t_category'] ?? '';
+$amount = $_POST['amount'] ?? '';
+$beginTime = $_POST['beginTime'] ?? '';
+$endTime = $_POST['endTime'] ?? '';
+$description = $_POST['description'] ?? '';
 
 
 
@@ -51,10 +52,10 @@ $catch = $_POST['catch'] ?? '';
 $isPass = true;
 if (empty($name)) {
   $isPass = false;
-  $output['errors']['name'] = '請填寫正確的姓名';
+  $output['errors']['t_name'] = '請填寫正確的姓名';
 }
 
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+/*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $isPass = false;
   $output['errors']['email'] = 'email 格式錯誤';
 }
@@ -63,10 +64,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 if (!$isPass) {
   echo json_encode($output);
   exit;
-}
+} 
+*/
 
 $sql = "INSERT INTO `address_book`(
-  `name`, `email`, `mobile`, `tickets`, `catch`, `created_at`
+  `t_name`, `t_category`, `amount`, `beginTime`, `endTime`, `description`
   ) VALUES (
     ?, ?, ?, ?, ?, NOW()
   )";
@@ -74,11 +76,12 @@ $sql = "INSERT INTO `address_book`(
 $stmt = $pdo->prepare($sql);
 
 $stmt->execute([
-  $name,
-  $email,
-  $mobile,
-  $tickets,
-  $catch,
+  $t_name,
+  $t_category,
+  $amount,
+  $beginTime,
+  $endTime,
+  $description,
 ]);
 
 $output['lastInserId'] = $pdo->lastInsertId(); #取得最新資料的PK

@@ -9,7 +9,7 @@ if (empty($sid)) {
   exit; //結束程式
 }
 
-$sql = "SELECT * FROM address_book WHERE sid={$sid}";
+$sql = "SELECT * FROM productlist WHERE sid={$sid}";
 $rows = $pdo->query($sql)->fetch();
 if (empty($rows)) {
   header('Location: list.php');
@@ -17,7 +17,7 @@ if (empty($rows)) {
 }
 # echo json_encode($rows, JSON_UNESCAPED_UNICODE);
 
-$title = '新增';
+$title = '編輯';
 
 ?>
 <?php include './parts/html_head.php' ?>
@@ -33,34 +33,37 @@ $title = '新增';
       <div class="card">
 
         <div class="card-body">
-          <h5 class="card-title">新增資料</h5>
+          <h5 class="card-title">編輯資料</h5>
 
           <form name="form1" onsubmit="sendData(event)">
             <div class="mb-3">
               <input type="hidden" name="sid" value="<?= $rows['sid'] ?>">
-              <label for="name" class="form-label">姓名</label>
-              <input type="text" class="form-control" id="name" name="name" value="<?= htmlentities($rows['name']) ?>">
+              <label for="t_name" class="form-label">票券名稱</label>
+              <input type="text" class="form-control" id="t_name" name="t_name" value="<?= htmlentities($rows['t_name']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">email</label>
-              <input type="text" class="form-control" id="email" name="email" value="<?= htmlentities($rows['email']) ?>">
+              <label for="t_category" class="form-label">票券類型</label>
+              <input type="text" class="form-control" id="t_category" name="t_category" value="<?= htmlentities($rows['t_category']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="mobile" class="form-label">mobile</label>
-              <input type="text" class="form-control" id="mobile" name="mobile" value="<?= htmlentities($rows['mobile']) ?>">
-              <div class="form-text"></div>
-              <button class="btn btn-secondary" type="button">btn若沒設type 則預設為submit</button>
-            </div>
-            <div class="mb-3">
-              <label for="birthday" class="form-label">birthday</label>
-              <input type="date" class="form-control" id="birthday" name="birthday" value="<?= $rows['birthday'] ?>">
+              <label for="amount" class="form-label">金額</label>
+              <input type="text" class="form-control" id="amount" name="amount" value="<?= htmlentities($rows['amount']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="address" class="form-label">address</label>
-              <textarea class="form-control" name="address" id="address" cols="30" rows="3"><?= $rows['address'] ?></textarea>
+              <label for="beginTime" class="form-label">開始時間</label>
+              <input type="datetime-local" class="form-control " id="beginTime" name="beginTime" value="<?= htmlentities($rows['beginTime']) ?>">
+              <div class="form-text"></div>
+            </div>
+            <!-- datetimepicker -->
+            <label for="endTime" class="form-label">結束時間</label>
+            <input type="datetime-local" class="form-control" id="endTime" name="endTime" value="<?= htmlentities($rows['endTime']) ?>">
+            <div class="form-text"></div>
+            <div class="mb-3">
+              <label for="description" class="form-label">描述</label>
+              <textarea class="form-control" name="description" id="description" cols="30" rows="3"><?= htmlentities($rows['description']) ?></textarea>
               <div class="form-text"></div>
             </div>
 
@@ -77,12 +80,15 @@ $title = '新增';
 
 <?php include './parts/scripts.php' ?>
 <script>
-  const name_in = document.form1.name;
-  const email_in = document.form1.email;
-  const mobile_in = document.form1.mobile;
-  const fields = [name_in, email_in, mobile_in];
+  const t_name_in = document.form1.t_name;
+  const t_category_in = document.form1.t_category;
+  const amount_in = document.form1.amount;
+  const beginTime_in = document.form1.beginTime;
+  const endTime_in = document.form1.endTime;
+  const description_in = document.form1.description;
+  const fields = [t_name_in, t_category_in, amount_in, beginTime_in, endTime_in, description_in];
 
-  function validateEmail(email) {
+  /*function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
@@ -91,7 +97,7 @@ $title = '新增';
     const re = /^09\d{2}-?\d{3}-?\d{3}$/;
     return re.test(mobile);
   }
-
+*/
 
   function sendData(e) {
     e.preventDefault(); // 不要讓表單以傳統的方式送出
@@ -104,17 +110,17 @@ $title = '新增';
 
     // TODO: 資料在送出之前, 要檢查格式
     let isPass = true; // 有沒有通過檢查
-        if (name_in.value.length < 2) {
-          isPass = false;
-          name_in.style.border = '2px solid red';
-          name_in.nextElementSibling.innerHTML = '請填寫正確的姓名';
-        }
+    if (t_name_in.value.length < 2) {
+      isPass = false;
+      t_name_in.style.border = '2px solid red';
+      t_name_in.nextElementSibling.innerHTML = '請填寫正確的姓名';
+    }
 
-        if (!validateEmail(email_in.value)) {
-          isPass = false;
-          email_in.style.border = '2px solid red';
-          email_in.nextElementSibling.innerHTML = '請填寫正確的 Email';
-        }
+    if (!validateEmail(email_in.value)) {
+      isPass = false;
+      email_in.style.border = '2px solid red';
+      email_in.nextElementSibling.innerHTML = '請填寫正確的 Email';
+    }
     // 非必填
     if (mobile_in.value && !validateMobile(mobile_in.value)) {
       isPass = false;
