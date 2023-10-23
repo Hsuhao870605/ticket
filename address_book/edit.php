@@ -17,7 +17,7 @@ if (empty($rows)) {
 }
 # echo json_encode($rows, JSON_UNESCAPED_UNICODE);
 
-$title = '編輯';
+$title = '編輯資料';
 
 ?>
 <?php include './parts/html_head.php' ?>
@@ -54,12 +54,12 @@ $title = '編輯';
             </div>
             <div class="mb-3">
               <label for="beginTime" class="form-label">開始時間</label>
-              <input type="datetime-local" class="form-control " id="beginTime" name="beginTime" value="<?= htmlentities($rows['beginTime']) ?>">
+              <input type="date" class="form-control " id="beginTime" name="beginTime" value="<?= htmlentities($rows['beginTime']) ?>">
               <div class="form-text"></div>
             </div>
             <!-- datetimepicker -->
             <label for="endTime" class="form-label">結束時間</label>
-            <input type="datetime-local" class="form-control" id="endTime" name="endTime" value="<?= htmlentities($rows['endTime']) ?>">
+            <input type="date" class="form-control" id="endTime" name="endTime" value="<?= htmlentities($rows['endTime']) ?>">
             <div class="form-text"></div>
             <div class="mb-3">
               <label for="description" class="form-label">描述</label>
@@ -113,20 +113,25 @@ $title = '編輯';
     if (t_name_in.value.length < 2) {
       isPass = false;
       t_name_in.style.border = '2px solid red';
-      t_name_in.nextElementSibling.innerHTML = '請填寫正確的姓名';
+      t_name_in.nextElementSibling.innerHTML = '請填寫正確的名稱';
+    }
+    if (t_name_in.value.length < 2) {
+      isPass = false;
+      t_category.style.border = '2px solid red';
+      t_category.nextElementSibling.innerHTML = '請填寫正確的類型';
     }
 
-    if (!validateEmail(email_in.value)) {
+    /* if (!validateEmail(email_in.value)) {
       isPass = false;
-      email_in.style.border = '2px solid red';
-      email_in.nextElementSibling.innerHTML = '請填寫正確的 Email';
+      t_category_in.style.border = '2px solid red';
+      t_category_in.nextElementSibling.innerHTML = '請填寫正確的 類型';
     }
     // 非必填
     if (mobile_in.value && !validateMobile(mobile_in.value)) {
       isPass = false;
-      mobile_in.style.border = '2px solid red';
-      mobile_in.nextElementSibling.innerHTML = '請填寫正確的手機號碼';
-    }
+      amount_in.style.border = '2px solid red';
+      amount_in.nextElementSibling.innerHTML = '請填寫正確的金額';
+    } */
 
 
     if (!isPass) {

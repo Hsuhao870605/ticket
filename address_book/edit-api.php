@@ -40,15 +40,19 @@ $description = $_POST['description'] ?? '';
 // mb_strlen(): 查看中文字串的長度
 
 $isPass = true;
-if (empty($name)) {
+if (empty($t_name)) {
   $isPass = false;
-  $output['errors']['name'] = '請填寫正確的姓名';
+  $output['errors']['t_name'] = '請填寫正確的名稱';
+}
+if (empty($t_category)) {
+  $isPass = false;
+  $output['errors']['t_category'] = '請填寫正確的類型';
 }
 
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+/*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $isPass = false;
   $output['errors']['email'] = 'email 格式錯誤';
-}
+} */
 
 # 如果沒有通過檢查
 if (!$isPass) {
@@ -56,13 +60,13 @@ if (!$isPass) {
   exit;
 }
 
-$sql = "UPDATE `address_book` SET 
+$sql = "UPDATE `productlist` SET 
   `t_name`=?,
-  `t_category`=?
+  `t_category`=?,
   `amount`=?,
   `beginTime`=?,
   `endTime`=?,
-  `description`=?,
+  `description`=?
 WHERE `sid`=? ";
 
 $stmt = $pdo->prepare($sql);
@@ -74,7 +78,7 @@ $stmt->execute([
   $beginTime,
   $endTime,
   $description,
-  $sid,
+  $sid
 ]);
 
 $output['rowCount'] = $stmt->rowCount();
