@@ -112,10 +112,10 @@ $title = '訂單資料編輯';
     e.preventDefault(); // 不要讓表單以傳統的方式送出
 
     // 外觀要回復原來的狀態
-    fields.forEach(field => {
+    /* fields.forEach(field => {
       field.style.border = '1px solid #CCCCCC';
       field.nextElementSibling.innerHTML = '';
-    })
+    }) */
 
     // TODO: 資料在送出之前, 要檢查格式
     let isPass = true; // 有沒有通過檢查
