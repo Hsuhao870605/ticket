@@ -2,6 +2,7 @@
 require './parts/connect_db.php';
 $pageName = 'orderList';
 $title = '訂單管理';
+$partName='ticket';
 
 
 $perPage = 10; //一頁最多有幾筆
@@ -39,6 +40,7 @@ if ($totalRows > 0) {
 
 ?>
 <?php include './parts/html_head.php' ?>
+<?php include './parts/main_part.php' ?>
 <?php include './parts/navbar.php' ?>
 
 <div class="container">
@@ -92,7 +94,7 @@ if ($totalRows > 0) {
             <tr>
               <td><?= $r['order_id'] ?></td>
               <td><?= $r['user_name'] ?></td>
-              <td><?= $r['t_name'] ?></td>
+              <td><?= $r['tc2_id'] ?></td>
               <td><?= $r['amount'] ?></td>
               <td><?= $r['orderTime'] ?></td>
               <td><?= $r['stateName'] ?></td>

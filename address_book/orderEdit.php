@@ -1,5 +1,6 @@
 <?php
 require './parts/connect_db.php';
+$partName='ticket';
 
 // 取得資料的primary key
 $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
@@ -28,6 +29,7 @@ $title = '訂單資料編輯';
 
 ?>
 <?php include './parts/html_head.php' ?>
+<?php include './parts/main_part.php' ?>
 <?php include './parts/navbar.php' ?>
 <style>
   form .form-text {
@@ -67,7 +69,7 @@ $title = '訂單資料編輯';
             <!-- datetimepicker -->
             <div class="mb-3">
               <label for="orderState_id" class="form-label">付款狀態</label>
-              <select class="form-select ms-3" id="orderState_id" name="orderState_id" required="required">
+              <select class="form-select" id="orderState_id" name="orderState_id" required="required">
                 <?php foreach ($rows1 as $r) : ?>
                   <option value="<?= $r['orderState_id'] ?>" <?= $r['orderState_id'] == 1 ? 'selected' : "" ?>><?= $r['stateName'] ?></option>
                 <?php

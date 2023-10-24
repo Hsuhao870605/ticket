@@ -3,9 +3,18 @@ require './parts/connect_db.php';
 
 $pageName = 'add';
 $title = '一日暢遊票券';
+$partName = 'ticket';
+
+$sql = "SELECT * FROM ticketCategory1";
+$sql2 = "SELECT * FROM ticketCategory2";
+
+
+$rows = $pdo->query($sql)->fetchAll();
+$rows2 = $pdo->query($sql2)->fetchAll();
 
 ?>
 <?php include './parts/html_head.php' ?>
+<?php include './parts/main_part.php' ?>
 <?php include './parts/navbar.php' ?>
 <style>
   form .form-text {
@@ -19,23 +28,34 @@ $title = '一日暢遊票券';
 
         <div class="card-body">
           <h5 class="card-title">商品種類新增</h5>
-
           <form name="form1" onsubmit="sendData(event)">
             <div class="mb-3">
-              <label for="t_name" class="form-label">票券名稱</label>
-              <input type="text" class="form-control" id="t_name" name="t_name">
+              <label for="tc1_id" class="form-label">票券種類</label>
+              <select class="form-select" id="tc1_id" name="tc1_id" required="required">
+                <?php foreach ($rows as $r) : ?>
+                  <option value="<?= $r['tc1_id'] ?>" <?= $r['tc1_id'] == 1 ? 'selected' : "" ?>><?= $r['tc1_name'] ?></option>
+                <?php
+                endforeach ?>
+              </select>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="t_category" class="form-label">票券類型</label>
-              <input type="text" class="form-control" id="t_category" name="t_category">
+              <label for="tc2_id" class="form-label">票券名稱</label>
+              <select class="form-select" id="tc2_id" name="tc2_id" required="required">
+                <?php foreach ($rows2 as $r2) : ?>
+                  <option value="<?= $r2['tc2_id'] ?>" <?= $r2['tc2_id'] == 1 ? 'selected' : "" ?>><?= $r2['tc2_name'] ?></option>
+                <?php
+                endforeach ?>
+              </select>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="amount" class="form-label">金額</label>
-              <input type="text" class="form-control" id="amount" name="amount">
+              <label for="tc_amount" class="form-label">金額</label>
+              <input type="text" class="form-control" id="tc_amount" name="tc_amount">
               <div class="form-text"></div>
             </div>
+
+
             <div class="mb-3">
               <label for="beginTime" class="form-label">開始時間</label>
               <input type="date" class="form-control " id="beginTime" name="beginTime">
@@ -74,15 +94,15 @@ $title = '一日暢遊票券';
 
 <?php include './parts/scripts.php' ?>
 <script>
-  const t_name_in = document.form1.t_name;
-  const t_category_in = document.form1.t_category;
-  const amount_in = document.form1.amount;
+  const tc1_name_in = document.form1.tc1_id;
+  const tc2_name_in = document.form1.tc2_id;
+  const tc_amount_in = document.form1.amount;
   const beginTime_in = document.form1.beginTime;
   const endTime_in = document.form1.endTime;
   const description_in = document.form1.description;
   // const email_in = document.form1.email;
   // const mobile_in = document.form1.mobile;
-  const fields = [t_name_in, t_category_in, amount_in, beginTime_in, endTime_in, description_in];
+  const fields = [tc1_name_in, tc2_name_in, tc_amount_in, beginTime_in, endTime_in, description_in];
 
   /* function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -99,23 +119,23 @@ $title = '一日暢遊票券';
     e.preventDefault(); // 不要讓表單以傳統的方式送出
 
     // 外觀要回復原來的狀態
-    fields.forEach(field => {
+    /* fields.forEach(field => {
       field.style.border = '1px solid #CCCCCC';
       field.nextElementSibling.innerHTML = '';
-    })
+    }) */
 
     // TODO: 資料在送出之前, 要檢查格式
     let isPass = true; // 有沒有通過檢查
-    if (t_name.value.length < 2) {
+    /* if (t_name.value.length < 2) {
       isPass = false;
       t_name.style.border = '2px solid red';
-      t_name.nextElementSibling.innerHTML = '請填寫正確的名稱';
-    }
-    if (t_name.value.length < 2) {
+      t_name.nextElementSibling.innerHTML = '請填寫正確的類型';
+    } 
+    if (tc2_name.value.length < 2) {
       isPass = false;
-      t_category_in.style.border = '2px solid red';
-      t_category_in.nextElementSibling.innerHTML = '請填寫正確的類型';
-    }
+      tc2_name_in.style.border = '2px solid red';
+      tc2_name_in.nextElementSibling.innerHTML = '請填寫正確的名稱';
+    } */
 
     /*if (!validateEmail(email_in.value)) {
       isPass = false;

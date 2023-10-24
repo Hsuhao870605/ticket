@@ -34,12 +34,8 @@ if(empty($_POST['name']) or empty($_POST['email'])){
   exit;
 }
 */
-$tc1_name = $_POST['tc1_name'] ?? '';
 $tc2_name = $_POST['tc2_name'] ?? '';
-$amount = $_POST['amount'] ?? '';
-$beginTime = $_POST['beginTime'] ?? '';
-$endTime = $_POST['endTime'] ?? '';
-$description = $_POST['description'] ?? '';
+$tc_amount = $_POST['tc_amount'] ?? '';
 
 
 
@@ -67,21 +63,17 @@ if (!$isPass) {
 } 
 
 
-$sql = "INSERT INTO `productlist`(
-  `tc1_id`, `tc2_id`, `amount`, `beginTime`, `endTime`, `description`
+$sql = "INSERT INTO `ticketcategory2`(
+  `tc2_name`, `tc_amount`
   ) VALUES (
-    ?, ?, ?, ?, ?, ?
+    ?, ?
   )";
 
 $stmt = $pdo->prepare($sql);
 
 $stmt->execute([
-  $tc1_name,
   $tc2_name,
-  $amount,
-  $beginTime,
-  $endTime,
-  $description,
+  $tc_amount,
 ]);
 
 $output['lastInserId'] = $pdo->lastInsertId(); #取得最新資料的PK

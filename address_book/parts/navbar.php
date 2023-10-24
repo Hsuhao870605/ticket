@@ -30,6 +30,9 @@ if (!isset($pageName)) {
             <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">商品種類新增</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'ticketList' ? 'active' : '' ?>" href="ticketList.php">票券列表</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link <?= $pageName == 'orderAdd' ? 'active' : '' ?>" href="orderAdd.php">訂單新增</a>
           </li>
           <li class="nav-item">
