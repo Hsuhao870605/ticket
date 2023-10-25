@@ -16,19 +16,16 @@ $output = [
 ];
 
 // 取得資料的primary key
-$order_id = isset($_POST['order_id']) ? intval($_POST['order_id']) : 0;
+$tc1_id = isset($_POST['tc1_id']) ? intval($_POST['tc1_id']) : 0;
 
-if (empty($order_id)) {
-  $output['errors']['order_id'] = "沒有PK";
+if (empty($tc1_id)) {
+  $output['errors']['tc1_id'] = "沒有PK";
   echo json_encode($output);
   exit; //結束程式
 }
 
-$user_name = $_POST['user_name'] ?? '';
-$tc2_id = $_POST['tc2_id'] ?? '';
-$amount = $_POST['amount'] ?? '';
-$orderTime = $_POST['orderTime'] ?? '';
-$orderState_id = $_POST['orderState_id'] ?? '';
+$tc1_name = $_POST['tc1_name'] ?? '';
+
 
 
 
@@ -39,13 +36,9 @@ $orderState_id = $_POST['orderState_id'] ?? '';
 // mb_strlen(): 查看中文字串的長度
 
 $isPass = true;
-if (empty($user_name)) {
+if (empty($tc1_name)) {
   $isPass = false;
-  $output['errors']['user_name'] = '請填寫正確的姓名';
-}
-if (empty($tc2_id)) {
-  $isPass = false;
-  $output['errors']['tc2_id'] = '請填寫正確的票券名稱';
+  $output['errors']['tc1_name'] = '請填寫正確的種類';
 }
 
 /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -59,23 +52,15 @@ if (!$isPass) {
   exit;
 }
 
-$sql = "UPDATE `orderlist` SET 
-  `user_name`=?,
-  `tc2_id`=?,
-  `amount`=?,
-  `orderTime`=?,
-  `orderState_id`=?
-WHERE `order_id`=? ";
+$sql = "UPDATE `ticketcategory1` SET 
+  `tc1_name`=?
+WHERE `tc1_id`=? ";
 
 $stmt = $pdo->prepare($sql);
 
 $stmt->execute([
-  $user_name,
-  $tc2_id,
-  $amount,
-  $orderTime,
-  $orderState_id,
-  $order_id
+  $tc1_name,
+  $tc1_id
 ]);
 
 $output['rowCount'] = $stmt->rowCount();

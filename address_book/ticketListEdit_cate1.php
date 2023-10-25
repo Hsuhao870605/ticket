@@ -1,19 +1,19 @@
 <?php
 require './parts/connect_db.php';
-$partName ='ticket';
+$partName = 'ticket';
 
 // 取得資料的primary key
-$tc2_id = isset($_GET['tc2_id']) ? intval($_GET['tc2_id']) : 0;
+$tc1_id = isset($_GET['tc1_id']) ? intval($_GET['tc1_id']) : 0;
 
-if (empty($tc2_id)) {
-  header('Location: ticketList.php');
+if (empty($tc1_id)) {
+  header('Location: ticketList_cate1.php');
   exit; //結束程式
 }
 
-$sql = "SELECT * FROM ticketcategory2 WHERE tc2_id={$tc2_id}";
+$sql = "SELECT * FROM ticketcategory1 WHERE tc1_id={$tc1_id}";
 $rows = $pdo->query($sql)->fetch();
 if (empty($rows)) {
-  header('Location: ticketList.php');
+  header('Location: ticketList_cate1.php');
   exit;
 }
 # echo json_encode($rows, JSON_UNESCAPED_UNICODE);
@@ -39,14 +39,9 @@ $title = '編輯票券種類';
 
           <form name="form1" onsubmit="sendData(event)">
             <div class="mb-3">
-              <input type="hidden" name="tc2_id" value="<?= $rows['tc2_id'] ?>">
-              <label for="tc2_name" class="form-label">票券名稱</label>
-              <input type="text" class="form-control" id="tc2_name" name="tc2_name" value="<?= htmlentities($rows['tc2_name']) ?>">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
-              <label for="tc_amount" class="form-label">金額</label>
-              <input type="text" class="form-control" id="tc_amount" name="tc_amount" value="<?= htmlentities($rows['tc_amount']) ?>">
+              <input type="hidden" name="tc1_id" value="<?= $rows['tc1_id'] ?>">
+              <label for="tc1_name" class="form-label">票券名稱</label>
+              <input type="text" class="form-control" id="tc1_name" name="tc1_name" value="<?= htmlentities($rows['tc1_name']) ?>">
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">送出</button>
@@ -62,9 +57,8 @@ $title = '編輯票券種類';
 
 <?php include './parts/scripts.php' ?>
 <script>
-  const tc2_name_in = document.form1.tc2_id;
-  const tc_amount_in = document.form1.tc_amount;
-  const fields = [tc2_name_in, tc_amount];
+  const tc1_name_in = document.form1.tc1_id;
+  const fields = [tc1_name_in];
 
   /*function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -93,16 +87,16 @@ $title = '編輯票券種類';
       tc1_id_in.style.border = '2px solid red';
       tc1_id_in.nextElementSibling.innerHTML = '請填寫正確的名稱';
     }  */
-    if (tc2_name_in.value.length = 0) {
+    if (tc1_name_in.value.length = 0) {
       isPass = false;
-      tc2_name.style.border = '2px solid red';
-      tc2_name.nextElementSibling.innerHTML = '請填寫正確的名稱';
+      tc1_name.style.border = '2px solid red';
+      tc1_name.nextElementSibling.innerHTML = '請填寫正確的種類';
     }
 
     /* if (!validateEmail(email_in.value)) {
       isPass = false;
-      tc2_id_in.style.border = '2px solid red';
-      tc2_id_in.nextElementSibling.innerHTML = '請填寫正確的 類型';
+      tc1_id_in.style.border = '2px solid red';
+      tc1_id_in.nextElementSibling.innerHTML = '請填寫正確的 類型';
     }
     // 非必填
     if (mobile_in.value && !validateMobile(mobile_in.value)) {
@@ -118,7 +112,7 @@ $title = '編輯票券種類';
     // 建立只有資料的表單
     const fd = new FormData(document.form1);
 
-    fetch('ticketListEdit-api.php', {
+    fetch('ticketListEdit_cate1-api.php', {
         method: 'POST',
         body: fd, // 送出的格式會自動是 multipart/form-data
       }).then(r => r.json())
@@ -128,18 +122,18 @@ $title = '編輯票券種類';
         });
         if (data.success) {
           alert('資料編輯成功');
-          location.href = "./ticketList.php"
+          location.href = "./ticketList_cate1.php"
         } else {
           alert('資料沒有修改');
-          for(let n in data.errors){
+          for (let n in data.errors) {
             console.log(`n: ${n}`);
-            if(document.form1[n]){
+            if (document.form1[n]) {
               const input = document.form1[n];
               input.style.border = '2px solid red';
               input.nextElementSibling.innerHTML = data.errors[n];
             }
           }
-          location.href = "./ticketList.php"
+          location.href = "./ticketList_cate1.php"
         }
 
       })

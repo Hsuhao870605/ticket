@@ -1,6 +1,6 @@
 <?php
 require './parts/connect_db.php';
-$pageName = 'ticketList';
+$pageName = 'ticketList_cate2';
 $title = '票券列表';
 $partName='ticket';
 
@@ -28,7 +28,9 @@ if ($totalRows > 0) {
     exit; #直接結束這支php
   }
   $sql = sprintf(
-    "SELECT * FROM ticketcategory2 ORDER BY tc2_id DESC LIMIT %s, %s",
+    "SELECT * FROM ticketcategory2 
+    JOIN ticketcategory1 ON ticketcategory2.tc1_id = ticketcategory1.tc1_id
+    ORDER BY tc2_id DESC LIMIT %s, %s",
     ($page - 1) * $perPage,
     $perPage
   );
@@ -71,7 +73,7 @@ if ($totalRows > 0) {
   <div class="row">
     <div class="col">
 
-      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'ticketList' ? 'active' : '' ?>" href="ticketListAdd.php">新增票券種類</a></button>
+      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'ticketList' ? 'active' : '' ?>" href="ticketListAdd_cate2.php">新增票券種類</a></button>
 
       <table class="table table-bordered table-striped">
         <thead>
@@ -80,6 +82,7 @@ if ($totalRows > 0) {
               <i class="fa-solid fa-trash-can"></i>
             </th>
             <th scope="col">票券編號</th>
+            <th scope="col">票券種類</th>
             <th scope="col">票券名稱</th>
             <th scope="col">金額</th>
             <th scope="col">
@@ -94,9 +97,10 @@ if ($totalRows > 0) {
                   <i class="fa-solid fa-trash-can"></i>
                 </a></td>
               <td><?= $r['tc2_id'] ?></td>
+              <td><?= $r['tc1_name'] ?></td>
               <td><?= $r['tc2_name'] ?></td>
               <td><?= $r['tc_amount'] ?></td>
-              <td><a href="ticketListEdit.php?tc2_id=<?= $r['tc2_id'] ?>">
+              <td><a href="ticketListEdit_cate2.php?tc2_id=<?= $r['tc2_id'] ?>">
                   <i class="fa-solid fa-file-pen">
                 </a></td>
             </tr>
@@ -114,7 +118,7 @@ if ($totalRows > 0) {
 <script>
   function deleteItem(tc2_id) {
     if (confirm(`確定刪除編號 ${tc2_id} 資料嗎?`)) {
-      location.href = 'delete.php?tc2_id=' + tc2_id;
+      location.href = 'ticketListDelete_cate2.php?tc2_id=' + tc2_id;
     }
   }
 </script>

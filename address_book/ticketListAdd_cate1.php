@@ -5,7 +5,7 @@ $pageName = 'ticketListAdd';
 $title = '一日暢遊票券';
 $partName='ticket';
 
-$sql = "SELECT * FROM ticketCategory2";
+$sql = "SELECT * FROM ticketCategory1";
 
 $rows = $pdo->query($sql)->fetchAll();
 
@@ -24,17 +24,12 @@ $rows = $pdo->query($sql)->fetchAll();
       <div class="card">
 
         <div class="card-body">
-          <h5 class="card-title">新增票券種類</h5>
+          <h5 class="card-title">新增名稱種類</h5>
 
           <form name="form1" onsubmit="sendData(event)">
         <div class="mb-3">
-          <label for="tc2_name" class="form-label">票券名稱</label>
-          <input type="text" class="form-control" id="tc2_name" name="tc2_name">
-          <div class="form-text"></div>
-        </div>
-        <div class="mb-3">
-          <label for="tc_amount" class="form-label">金額</label>
-          <input type="text" class="form-control" id="tc_amount" name="tc_amount">
+          <label for="tc1_name" class="form-label">票券名稱</label>
+          <input type="text" class="form-control" id="tc1_name" name="tc1_name">
           <div class="form-text"></div>
         </div>
         <!--<div class="mb-3">
@@ -61,12 +56,11 @@ $rows = $pdo->query($sql)->fetchAll();
 
 <?php include './parts/scripts.php' ?>
 <script>
-  const tc2_name_in = document.form1.tc2_name;
-  const tc_amount = document.form1.tc_amount;
+  const tc1_name_in = document.form1.tc1_name;
 
   // const email_in = document.form1.email;
   // const mobile_in = document.form1.mobile;
-  const fields = [tc2_name_in, tc_amount];
+  const fields = [tc1_name_in];
 
   /* function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -95,10 +89,10 @@ $rows = $pdo->query($sql)->fetchAll();
       t_name.style.border = '2px solid red';
       t_name.nextElementSibling.innerHTML = '請填寫正確的類型';
     } */
-    if (tc2_name.value.length < 2) {
+    if (tc1_name.value.length < 2) {
       isPass = false;
-      tc2_name_in.style.border = '2px solid red';
-      tc2_name_in.nextElementSibling.innerHTML = '請填寫正確的名稱';
+      tc1_name_in.style.border = '2px solid red';
+      tc1_name_in.nextElementSibling.innerHTML = '請填寫正確的名稱';
     }
 
     /*if (!validateEmail(email_in.value)) {
@@ -120,7 +114,7 @@ $rows = $pdo->query($sql)->fetchAll();
     // 建立只有資料的表單
     const fd = new FormData(document.form1);
 
-    fetch('ticketListAdd-api.php', {
+    fetch('ticketListAdd_cate1-api.php', {
         method: 'POST',
         body: fd, // 送出的格式會自動是 multipart/form-data
       }).then(r => r.json())
@@ -130,7 +124,7 @@ $rows = $pdo->query($sql)->fetchAll();
         });
         if (data.success) {
           alert('資料新增成功');
-          location.href = "./ticketList.php"
+          location.href = "./ticketList_cate1.php"
         } else {
           // alert('資料有誤');
           for (let n in data.errors) {

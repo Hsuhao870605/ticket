@@ -30,13 +30,13 @@ if (!isset($pageName)) {
             <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">商品種類新增</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?= $pageName == 'ticketList' ? 'active' : '' ?>" href="ticketList.php">票券列表</a>
+            <a class="nav-link <?= $pageName == 'ticketList_cate1' ? 'active' : '' ?>" href="ticketList_cate1.php">票券種類列表</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'ticketList_cate2' ? 'active' : '' ?>" href="ticketList_cate2.php">票券名稱列表</a>
           </li>
           <li class="nav-item">
             <a class="nav-link <?= $pageName == 'orderAdd' ? 'active' : '' ?>" href="orderAdd.php">訂單新增</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link <?= $pageName == 'expressCate' ? 'active' : '' ?>" href="expressCate.php">快速通關</a>
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">

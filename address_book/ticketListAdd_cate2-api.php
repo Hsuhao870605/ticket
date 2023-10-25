@@ -36,6 +36,7 @@ if(empty($_POST['name']) or empty($_POST['email'])){
 */
 $tc2_name = $_POST['tc2_name'] ?? '';
 $tc_amount = $_POST['tc_amount'] ?? '';
+$tc1_id = $_POST['tc1_id'] ?? '';
 
 
 
@@ -64,9 +65,9 @@ if (!$isPass) {
 
 
 $sql = "INSERT INTO `ticketcategory2`(
-  `tc2_name`, `tc_amount`
+  `tc2_name`, `tc_amount`,`tc1_id`
   ) VALUES (
-    ?, ?
+    ?, ?, ?
   )";
 
 $stmt = $pdo->prepare($sql);
@@ -74,6 +75,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([
   $tc2_name,
   $tc_amount,
+  $tc1_id,
 ]);
 
 $output['lastInserId'] = $pdo->lastInsertId(); #取得最新資料的PK

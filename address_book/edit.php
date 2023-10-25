@@ -19,8 +19,10 @@ if (empty($rows)) {
 # echo json_encode($rows, JSON_UNESCAPED_UNICODE);
 
 $sql1 = "SELECT * FROM ticketcategory1";
-$rows1 = $pdo->query($sql1)->fetchAll();
 $sql2 = "SELECT * FROM ticketcategory2";
+
+
+$rows1 = $pdo->query($sql1)->fetchAll();
 $rows2 = $pdo->query($sql2)->fetchAll();
 
 $title = '編輯資料';

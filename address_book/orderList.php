@@ -29,7 +29,7 @@ if ($totalRows > 0) {
     exit; #直接結束這支php
   }
   $sql = sprintf(
-    "SELECT * FROM orderlist JOIN orderstate on orderlist.orderState_id = orderState.orderState_id JOIN ticketcategory2 t2 ON orderlist.tc2_id = t2.tc2_id && orderlist.amount = t2.tc_amount
+    "SELECT * FROM orderlist JOIN orderstate on orderlist.orderState_id = orderState.orderState_id JOIN ticketcategory2 t2 ON orderlist.tc2_id = t2.tc2_id
     ORDER BY order_id DESC LIMIT %s, %s",
     ($page - 1) * $perPage,
     $perPage
@@ -97,7 +97,7 @@ if ($totalRows > 0) {
               <td><?= $r['order_id'] ?></td>
               <td><?= $r['user_name'] ?></td>
               <td><?= $r['tc2_name'] ?></td>
-              <td><?= $r['amount'] ?></td>
+              <td><?= $r['tc_amount'] ?></td>
               <td><?= $r['orderTime'] ?></td>
               <td><?= $r['stateName'] ?></td>
               <td><a href="orderEdit.php?order_id=<?= $r['order_id'] ?>">
