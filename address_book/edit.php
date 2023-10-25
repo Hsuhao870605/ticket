@@ -126,16 +126,16 @@ $title = '編輯資料';
 
     // TODO: 資料在送出之前, 要檢查格式
     let isPass = true; // 有沒有通過檢查
-    /* if (tc1_id_in.value.length < 2) {
+    if (description_in.value.length < 2) {
       isPass = false;
-      tc1_id_in.style.border = '2px solid red';
-      tc1_id_in.nextElementSibling.innerHTML = '請填寫正確的名稱';
-    } */
-    if (tc2_id_in.value.length < 2) {
+      description_in.style.border = '2px solid red';
+      description_in.nextElementSibling.innerHTML = '請填寫正確的描述';
+    } 
+    /* if (tc2_id_in.value.length < 2) {
       isPass = false;
       tc2_id.style.border = '2px solid red';
       tc2_id.nextElementSibling.innerHTML = '請填寫正確的類型';
-    }
+    } */
 
     /* if (!validateEmail(email_in.value)) {
       isPass = false;

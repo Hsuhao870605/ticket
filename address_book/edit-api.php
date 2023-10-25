@@ -40,16 +40,16 @@ $description = $_POST['description'] ?? '';
 // mb_strlen(): 查看中文字串的長度
 
 $isPass = true;
-if (empty($tc1_name)) {
+if (empty($description)) {
   $isPass = false;
-  $output['errors']['tc1_name'] = '請填寫正確的名稱';
+  $output['errors']['description'] = '請填寫正確的描述';
 }
-if (empty($tc2_name)) {
+/* if (empty($tc2_name)) {
   $isPass = false;
   $output['errors']['tc2_name'] = '請填寫正確的類型';
 }
 
-/*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $isPass = false;
   $output['errors']['email'] = 'email 格式錯誤';
 } */
