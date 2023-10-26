@@ -1,6 +1,6 @@
 <?php
 require './parts/connect_db.php';
-$pageName = 'list';
+$pageName = 'ticketList';
 $title = '商品管理';
 $partName='ticket';
 
@@ -74,7 +74,7 @@ if ($totalRows > 0) {
   <div class="row">
     <div class="col">
 
-      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="add.php">新增票券種類</a></button>
+      <button class="btn btn-primary" type="submit"><a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="ticketAdd.php">新增票券種類</a></button>
 
       <table class="table table-bordered table-striped">
         <thead>
@@ -109,7 +109,7 @@ if ($totalRows > 0) {
               <td><?= htmlentities($r['description']) ?>
                 <!--<?= strip_tags($r['description']) ?> -->
               </td>
-              <td><a href="edit.php?sid=<?= $r['sid'] ?>">
+              <td><a href="ticketEdit.php?sid=<?= $r['sid'] ?>">
                   <i class="fa-solid fa-file-pen">
                 </a></td>
             </tr>
@@ -127,7 +127,7 @@ if ($totalRows > 0) {
 <script>
   function deleteItem(sid) {
     if (confirm(`確定刪除編號 ${sid} 資料嗎?`)) {
-      location.href = 'delete.php?sid=' + sid;
+      location.href = 'ticketDelete.php?sid=' + sid;
     }
   }
 </script>

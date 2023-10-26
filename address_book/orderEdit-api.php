@@ -26,7 +26,6 @@ if (empty($order_id)) {
 
 $user_name = $_POST['user_name'] ?? '';
 $tc2_id = $_POST['tc2_id'] ?? '';
-$amount = $_POST['amount'] ?? '';
 $orderTime = $_POST['orderTime'] ?? '';
 $orderState_id = $_POST['orderState_id'] ?? '';
 
@@ -43,10 +42,6 @@ if (empty($user_name)) {
   $isPass = false;
   $output['errors']['user_name'] = '請填寫正確的姓名';
 }
-if (empty($tc2_id)) {
-  $isPass = false;
-  $output['errors']['tc2_id'] = '請填寫正確的票券名稱';
-}
 
 /*if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $isPass = false;
@@ -62,7 +57,6 @@ if (!$isPass) {
 $sql = "UPDATE `orderlist` SET 
   `user_name`=?,
   `tc2_id`=?,
-  `amount`=?,
   `orderTime`=?,
   `orderState_id`=?
 WHERE `order_id`=? ";
@@ -72,7 +66,6 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([
   $user_name,
   $tc2_id,
-  $amount,
   $orderTime,
   $orderState_id,
   $order_id

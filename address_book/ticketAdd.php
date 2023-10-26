@@ -1,7 +1,7 @@
 <?php
 require './parts/connect_db.php';
 
-$pageName = 'add';
+$pageName = 'ticketAdd';
 $title = '一日暢遊票券';
 $partName = 'ticket';
 
@@ -157,7 +157,7 @@ $rows2 = $pdo->query($sql2)->fetchAll();
     // 建立只有資料的表單
     const fd = new FormData(document.form1);
 
-    fetch('add-api.php', {
+    fetch('ticketAdd-api.php', {
         method: 'POST',
         body: fd, // 送出的格式會自動是 multipart/form-data
       }).then(r => r.json())
@@ -167,7 +167,7 @@ $rows2 = $pdo->query($sql2)->fetchAll();
         });
         if (data.success) {
           alert('資料新增成功');
-          location.href = "./list.php"
+          location.href = "./ticketList.php"
         } else {
           // alert('資料有誤');
           for (let n in data.errors) {

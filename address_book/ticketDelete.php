@@ -7,7 +7,7 @@ if(! empty($sid)){
   $pdo->query($sql);
 }
 
-$come_from = 'list.php';
+$come_from = 'ticketList.php';
 if(! empty($_SERVER['HTTP_REFERER'])){
   $come_from = $_SERVER['HTTP_REFERER'];
 }

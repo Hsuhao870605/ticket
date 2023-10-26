@@ -1,9 +1,9 @@
 <?php 
 require './parts/connect_db.php';
 
-$sid = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
-if(! empty($sid)){
-  $sql = "DELETE FROM orderList WHERE sid={$sid}";
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
+if(! empty($order_id)){
+  $sql = "DELETE FROM orderList WHERE order_id={$order_id}";
   $pdo->query($sql);
 }
 

@@ -6,14 +6,14 @@ $partName = 'ticket';
 $sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
 
 if (empty($sid)) {
-  header('Location: list.php');
+  header('Location: ticketList.php');
   exit; //結束程式
 }
 
 $sql = "SELECT * FROM productlist WHERE sid={$sid}";
 $rows = $pdo->query($sql)->fetch();
 if (empty($rows)) {
-  header('Location: list.php');
+  header('Location: ticketList.php');
   exit;
 }
 # echo json_encode($rows, JSON_UNESCAPED_UNICODE);
@@ -26,6 +26,12 @@ $rows1 = $pdo->query($sql1)->fetchAll();
 $rows2 = $pdo->query($sql2)->fetchAll();
 
 $title = '編輯資料';
+
+foreach ($rows2 as $ticketcategory2) {
+  if ($ticketcategory2['tc2_id'] == $rows['tc2_id']) {
+    $ticketcategory1 = $ticketcategory2['tc1_id'];
+  }
+}
 
 ?>
 <?php include './parts/html_head.php' ?>
@@ -45,31 +51,32 @@ $title = '編輯資料';
           <h5 class="card-title">編輯資料</h5>
 
           <form name="form1" onsubmit="sendData(event)">
-            <div class="mb-3">
-              <label for="tc1_id" class="form-label">票券種類</label>
-              <select class="form-select" id="tc1_id" name="tc1_id" required="required">
+            <div class="input-group mb-3">
+            <input type="hidden" name="sid" value="<?= $rows['sid'] ?>">
+              <span class="input-group-text">票券類別</span>
+              <select class="form-select" name="tc1_id" id="cate1" onchange="generateCate2List()">
                 <?php foreach ($rows1 as $r1) : ?>
-                  <option value="<?= $r1['tc1_id'] ?>" <?= $r1['tc1_id'] == $rows['tc1_id'] ? 'selected' : "" ?>><?= $r1['tc1_name'] ?></option>
+                  <!-- 透過三元運算子判斷 主類的選項中 有符合 $ticketcategory1 的 id 就 selected  -->
+                  <option value="<?= $r1['tc1_id'] ?>" <?= $r1['tc1_id'] == $ticketcategory1 ? 'selected' : '' ?>><?= $r1['tc1_name'] ?></option>
                 <?php
+                // endif;
                 endforeach ?>
               </select>
-              <div class="form-text"></div>
             </div>
-            <div class="mb-3">
-              <label for="tc2_id" class="form-label">票券名稱</label>
-              <select class="form-select" id="tc2_id" name="tc2_id" required="required">
+            <div class="input-group mb-3">
+              <span class="input-group-text">票券名稱</span>
+              <select class="form-select" name="tc2_id" id="cate2" onchange="generateamount()" ?>
                 <?php foreach ($rows2 as $r2) : ?>
-                  <option value="<?= $r2['tc2_id'] ?>" <?= $r2['tc2_id'] == $rows['tc2_id'] ? 'selected' : "" ?>><?= $r2['tc2_name'] ?></option>
-                <?php
-                endforeach ?>
+                  <!-- 透過 $ticketcategory1 先把 不是同一個大類的子選項去除 -->
+                  <?php if ($r2['tc1_id'] == $ticketcategory1) : ?>
+                    <!-- 透過三元運算子判斷 在次要分類中 有符合 tc2_id 的選項就加上 selected -->
+                    <option value="<?= $r2['tc2_id'] ?>" <?= $r2['tc2_id'] == $rows['tc2_id'] ? 'selected' : '' ?>><?= $r2['tc2_name'] ?></option>
+                  <?php endif ?>
+                <?php endforeach ?>
               </select>
-              <div class="form-text"></div>
             </div>
-            <div class="mb-3">
-              <label for="amount" class="form-label">金額</label>
-              <input type="text" class="form-control" id="amount" name="amount" value="<?= htmlentities($rows['amount']) ?>">
-              <div class="form-text"></div>
-            </div>
+            <label for="tc_amount" class="form-label">金額：</label>
+            <span class="mb-3" id="tc_amount" name="tc_amount"></span>
             <div class="mb-3">
               <label for="beginTime" class="form-label">開始時間</label>
               <input type="date" class="form-control " id="beginTime" name="beginTime" value="<?= htmlentities($rows['beginTime']) ?>">
@@ -98,13 +105,7 @@ $title = '編輯資料';
 
 <?php include './parts/scripts.php' ?>
 <script>
-  const tc1_name_in = document.form1.tc1_id;
-  const tc2_id_in = document.form1.tc2_id;
-  const amount_in = document.form1.amount;
-  const beginTime_in = document.form1.beginTime;
-  const endTime_in = document.form1.endTime;
   const description_in = document.form1.description;
-  const fields = [tc1_name_in, tc2_id_in, amount, beginTime_in, endTime_in, description_in];
 
   /*function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -120,11 +121,6 @@ $title = '編輯資料';
   function sendData(e) {
     e.preventDefault(); // 不要讓表單以傳統的方式送出
 
-    // 外觀要回復原來的狀態
-    /* fields.forEach(field => {
-      field.style.border = '1px solid #CCCCCC';
-      field.nextElementSibling.innerHTML = '';
-    }) */
 
     // TODO: 資料在送出之前, 要檢查格式
     let isPass = true; // 有沒有通過檢查
@@ -132,24 +128,7 @@ $title = '編輯資料';
       isPass = false;
       description_in.style.border = '2px solid red';
       description_in.nextElementSibling.innerHTML = '請填寫正確的描述';
-    } 
-    /* if (tc2_id_in.value.length < 2) {
-      isPass = false;
-      tc2_id.style.border = '2px solid red';
-      tc2_id.nextElementSibling.innerHTML = '請填寫正確的類型';
-    } */
-
-    /* if (!validateEmail(email_in.value)) {
-      isPass = false;
-      tc2_id_in.style.border = '2px solid red';
-      tc2_id_in.nextElementSibling.innerHTML = '請填寫正確的 類型';
     }
-    // 非必填
-    if (mobile_in.value && !validateMobile(mobile_in.value)) {
-      isPass = false;
-      amount_in.style.border = '2px solid red';
-      amount_in.nextElementSibling.innerHTML = '請填寫正確的金額';
-    } */
 
 
     if (!isPass) {
@@ -158,7 +137,7 @@ $title = '編輯資料';
     // 建立只有資料的表單
     const fd = new FormData(document.form1);
 
-    fetch('edit-api.php', {
+    fetch('ticketEdit-api.php', {
         method: 'POST',
         body: fd, // 送出的格式會自動是 multipart/form-data
       }).then(r => r.json())
@@ -168,7 +147,7 @@ $title = '編輯資料';
         });
         if (data.success) {
           alert('資料編輯成功');
-          location.href = "./list.php"
+          location.href = "./ticketList.php"
         } else {
           alert('資料沒有修改');
           for (let n in data.errors) {
@@ -179,11 +158,61 @@ $title = '編輯資料';
               input.nextElementSibling.innerHTML = data.errors[n];
             }
           }
-          location.href = "./list.php"
+          location.href = "./ticketList.php"
         }
 
       })
       .catch(ex => console.log(ex))
   }
+
+  // const initVals = {
+  //   cate1: 1,
+  //   cate2: 1
+  // };
+
+  const cates = <?= json_encode($rows2, JSON_UNESCAPED_UNICODE) ?>;
+
+  const cate1 = document.querySelector('#cate1')
+  const cate2 = document.querySelector('#cate2')
+  const amount = document.querySelector('#amount')
+
+
+
+  function generateCate2List() { //呼叫generateCate2List()
+    const cate1Val = cate1.value; // 主分類的值
+
+    let str = "";
+    //b;
+    for (let item of cates) {
+      if (+item.tc1_id === +cate1Val) { //+ cate1轉成字串
+        str += `<option value="${item.tc2_id}">${item.tc2_name}</option>`;
+        //a;
+      }
+    }
+
+    cate2.innerHTML = str;
+    generateamount();
+  }
+
+  function generateamount() { //呼叫generateCate2List()
+    const cate2Val = cate2.value; // 主分類的值
+
+    let str = "";
+    //b;
+    for (let item of cates) {
+      if (+item.tc2_id === +cate2Val) { //+ cate1轉成字串
+        str += `${item.tc_amount}`;
+        //a;
+      }
+    }
+
+    tc_amount.innerHTML = str;
+
+  }
+
+  // cate1.value = initVals.cate1; // 設定第一層的初始值
+  // generateCate2List(); // 生第二層
+  // cate2.value = initVals.cate2; // 設定第二層的初始值
+  generateamount();
 </script>
 <?php include './parts/html_foot.php' ?>

@@ -24,9 +24,8 @@ if (empty($sid)) {
   exit; //結束程式
 }
 
-$tc1_name = $_POST['tc1_name'] ?? '';
-$tc2_name = $_POST['tc2_name'] ?? '';
-$amount = $_POST['amount'] ?? '';
+$tc1_id = $_POST['tc1_id'] ?? '';
+$tc2_id = $_POST['tc2_id'] ?? '';
 $beginTime = $_POST['beginTime'] ?? '';
 $endTime = $_POST['endTime'] ?? '';
 $description = $_POST['description'] ?? '';
@@ -44,9 +43,9 @@ if (empty($description)) {
   $isPass = false;
   $output['errors']['description'] = '請填寫正確的描述';
 }
-/* if (empty($tc2_name)) {
+/* if (empty($tc2_id)) {
   $isPass = false;
-  $output['errors']['tc2_name'] = '請填寫正確的類型';
+  $output['errors']['tc2_id'] = '請填寫正確的類型';
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -61,9 +60,8 @@ if (!$isPass) {
 }
 
 $sql = "UPDATE `productlist` SET 
-  `tc1_name`=?,
-  `tc2_name`=?,
-  `amount`=?,
+  `tc1_id`=?,
+  `tc2_id`=?,
   `beginTime`=?,
   `endTime`=?,
   `description`=?
@@ -72,9 +70,8 @@ WHERE `sid`=? ";
 $stmt = $pdo->prepare($sql);
 
 $stmt->execute([
-  $tc1_name,
-  $tc2_name,
-  $amount,
+  $tc1_id,
+  $tc2_id,
   $beginTime,
   $endTime,
   $description,
